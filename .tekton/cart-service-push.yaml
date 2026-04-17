@@ -1,0 +1,67 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  name: cart-service-build-run
+  # These annotations are crucial for Tekton Pipelines as Code (PAC)
+  # They act as the "Trigger" rules for this specific pipeline
+  annotations:
+    pipelinesascode.tekton.dev/on-event: "[push, pull_request]"
+    pipelinesascode.tekton.dev/on-target-branch: "[main]"
+    # Only trigger this pipeline if files inside the cart-service directory changed
+    pipelinesascode.tekton.dev/on-cel-expression: |
+      target_branch == "main" && "services/cart-service/**/*".pathChanged()
+    # It will automatically fetch reusable tasks from the Tekton Hub or a remote location
+    pipelinesascode.tekton.dev/task: "git-clone"
+    pipelinesascode.tekton.dev/task-1: "kaniko" 
+spec:
+  params:
+    - name: repo_url
+      value: "{{repo_url}}"
+    - name: revision
+      value: "{{revision}}"
+  pipelineSpec:
+    params:
+      - name: repo_url
+      - name: revision
+    workspaces:
+      - name: shared-workspace
+    tasks:
+      - name: fetch-repository
+        taskRef:
+          name: git-clone
+        workspaces:
+          - name: output
+            workspace: shared-workspace
+        params:
+          - name: url
+            value: $(params.repo_url)
+          - name: revision
+            value: $(params.revision)
+
+      # In a real scenario, you'd have a test task here
+
+      - name: build-docker-image
+        taskRef:
+          name: kaniko
+        runAfter:
+          - fetch-repository
+        workspaces:
+          - name: source
+            workspace: shared-workspace
+        params:
+          - name: IMAGE
+            value: "your-registry.com/shopflow/cart-service:$(params.revision)"
+          - name: CONTEXT
+            value: "services/cart-service"
+          - name: DOCKERFILE
+            value: "services/cart-service/Dockerfile"
+            
+  workspaces:
+  - name: shared-workspace
+    volumeClaimTemplate:
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
