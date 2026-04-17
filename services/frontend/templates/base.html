@@ -10,18 +10,18 @@
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+    <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="{{ url_for('home') }}">
-                <i class="bi bi-shop"></i> ShopFlow
+            <a class="navbar-brand" href="{{ url_for('home') }}">
+                <i class="bi bi-heptagon-half"></i> ShopFlow
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <form class="d-flex mx-auto" style="max-width: 400px; width: 100%;" action="{{ url_for('home') }}" method="get">
-                    <input class="form-control me-2" type="search" name="search" placeholder="Search products..." value="{{ search|default('') }}">
-                    <button class="btn btn-outline-light" type="submit"><i class="bi bi-search"></i></button>
+                <form class="d-flex mx-auto" style="max-width: 450px; width: 100%; position: relative;" action="{{ url_for('home') }}" method="get">
+                    <input class="form-control" type="search" name="search" placeholder="Search premium products..." value="{{ search|default('') }}">
+                    <button class="btn btn-search position-absolute end-0 top-0 bottom-0 px-3" type="submit" style="border: none; background: transparent;"><i class="bi bi-search"></i></button>
                 </form>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
@@ -73,7 +73,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-dark text-light py-4 mt-5">
+    <footer class="py-4 mt-5">
         <div class="container text-center">
             <p class="mb-1">&copy; 2024 ShopFlow — Microservices E-Commerce Demo</p>
             <small class="text-muted">Built with Python | FastAPI | Flask | PostgreSQL | Redis | RabbitMQ</small>
