@@ -1,0 +1,42 @@
+/* ShopFlow Custom Styles */
+
+.hero-banner {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.hero-banner p {
+    color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.product-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: none;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+.navbar-brand {
+    font-size: 1.4rem;
+}
+
+.badge {
+    font-weight: 500;
+}
+
+footer {
+    margin-top: auto;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+}

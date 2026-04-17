@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Order #{{ order.id }} — ShopFlow{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ url_for('orders') }}">My Orders</a></li>
+        <li class="breadcrumb-item active">Order #{{ order.id }}</li>
+    </ol>
+</nav>
+
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">Order #{{ order.id }}</h4>
+        {% set status_colors = {'paid': 'success', 'pending': 'warning', 'payment_failed': 'danger', 'shipped': 'info', 'delivered': 'success', 'cancelled': 'secondary', 'payment_processing': 'info'} %}
+        <span class="badge bg-{{ status_colors.get(order.status, 'secondary') }} fs-6">{{ order.status|upper }}</span>
+    </div>
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="col-md-4"><strong>Date:</strong> {{ order.created_at[:10] }}</div>
+            <div class="col-md-4"><strong>Payment ID:</strong> {{ order.payment_id or 'N/A' }}</div>
+            <div class="col-md-4"><strong>Shipping:</strong> {{ order.shipping_address or 'N/A' }}</div>
+        </div>
+        <h5>Items</h5>
+        <table class="table">
+            <thead><tr><th>Product</th><th>Price</th><th>Qty</th><th>Subtotal</th></tr></thead>
+            <tbody>
+                {% for item in order.items %}
+                <tr>
+                    <td>{{ item.product_name }}</td>
+                    <td>${{ "%.2f"|format(item.unit_price) }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <td>${{ "%.2f"|format(item.total_price) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr class="table-dark">
+                    <td colspan="3" class="text-end fw-bold">Total:</td>
+                    <td class="fw-bold">${{ "%.2f"|format(order.total_amount) }}</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+{% endblock %}
