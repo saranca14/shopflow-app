@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: product-service
+  description: Core product catalog service for ShopFlow
+  annotations:
+    argocd/app-name: product-service
+    github.com/project-slug: saranca14/shopflow-app
+    tekton.dev/pipeline: product-service-pipeline
+spec:
+  type: service
+  lifecycle: production
+  owner: platform-team
+  system: shopflow

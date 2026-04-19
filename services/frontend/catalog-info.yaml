@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: shopflow-frontend
+  description: Web storefront for ShopFlow
+  annotations:
+    argocd/app-name: shopflow-frontend
+    github.com/project-slug: saranca14/shopflow-app
+    tekton.dev/pipeline: frontend-pipeline
+spec:
+  type: website
+  lifecycle: production
+  owner: platform-team
+  system: shopflow

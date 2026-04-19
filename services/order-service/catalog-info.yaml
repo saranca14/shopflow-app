@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: order-service
+  description: Manages customer orders and fulfillment
+  annotations:
+    argocd/app-name: order-service
+    github.com/project-slug: saranca14/shopflow-app
+    tekton.dev/pipeline: order-service-pipeline
+spec:
+  type: service
+  lifecycle: production
+  owner: platform-team
+  system: shopflow

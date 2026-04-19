@@ -1,0 +1,14 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: cart-service
+  description: Handles shopping cart logic and persistence
+  annotations:
+    argocd/app-name: cart-service
+    github.com/project-slug: saranca14/shopflow-app
+    tekton.dev/pipeline: cart-service-pipeline
+spec:
+  type: service
+  lifecycle: production
+  owner: platform-team
+  system: shopflow
